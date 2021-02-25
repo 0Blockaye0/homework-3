@@ -1,17 +1,14 @@
-/////// DECLARE FUNCTIONS AT THE TOP//////
-var password
+/////// DECLARE VARIABLES //////
+var password = ""
 var length
 var passwordArray
-
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-
 // options arrays
 var uppercaseLettersArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var lowercaseLettersArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var numbersArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var specialCharactersArray = ['!', '#', '$', '%', '&', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@'];
-
 // options object
 var options = {
     uppercase: "",
@@ -19,6 +16,8 @@ var options = {
     numeric: ""
 };
 
+
+/////// DECLARE FUNCTIONS /////////
 // returns options
 function passwordOptions() {
     var optionQuestion = window.confirm("Would you like uppercase, numeric, and or special characters in your password? select 'ok' for yes or 'cancel' for no.")
@@ -51,30 +50,25 @@ function getPasswordArray() {
         lowercaseLettersArray.push('!', '#', '$', '%', '&', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@')
     } if (options.numeric === true) {
         lowercaseLettersArray.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    } console.log(lowercaseLettersArray)
+    } 
      passwordArray = lowercaseLettersArray;
      
      console.log(passwordArray);
      return passwordArray;
 };
 
-
-
-
-
-////////////////////////////////////
-
+//////////////////////////////////
 function generatePassword() {
     for (var i = 0; i < length; i++) {
        var x = passwordArray[Math.floor(Math.random() * passwordArray.length)];
-       console.log(x)
+       password = password + x;
     }
+    window.alert(password + " is your password.");
 };
-
 //////////////////////////////////
 
 
-
+///////// CALL FUNCTIONS /////////
 passwordLength();
 passwordOptions();
 getPasswordArray();
@@ -83,38 +77,20 @@ debugger;
 
 
 
-
-
-
-
-
-//XXXXXappendChild the true arrays together 
-//for loop using Math.random to select index of arrays
-//for loop i value is length of pw
-
-
-
-
-
-
-
-
-
-
 //var options=("");
 //return "password";
 //}
 
 // Write password to the #password input
-function writePassword() {
-    var password = generatePassword();
+//function writePassword() {
+    //var password = generatePassword();
 
 
 
     //var passwordText = document.querySelector("#password");
-    passwordText.value = password;
+    //passwordText.value = password;
 
-}
+//}
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+//generateBtn.addEventListener("click", writePassword);
