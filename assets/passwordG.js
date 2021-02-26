@@ -1,5 +1,5 @@
 /////// DECLARE VARIABLES //////
-var password = ""
+var password = [""]
 var length
 var passwordArray
 // Assignment Code
@@ -15,7 +15,6 @@ var options = {
     special: "",
     numeric: ""
 };
-
 
 /////// DECLARE FUNCTIONS /////////
 // returns options
@@ -49,7 +48,7 @@ function getPasswordArray() {
     } if (options.special === true) {
         lowercaseLettersArray.push('!', '#', '$', '%', '&', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@')
     } if (options.numeric === true) {
-        lowercaseLettersArray.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+        lowercaseLettersArray.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9','0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     } 
      passwordArray = lowercaseLettersArray;
      
@@ -57,23 +56,66 @@ function getPasswordArray() {
      return passwordArray;
 };
 
-//////////////////////////////////
 function generatePassword() {
+    debugger;
     for (var i = 0; i < length; i++) {
        var x = passwordArray[Math.floor(Math.random() * passwordArray.length)];
        password = password + x;
-    }
-    window.alert(password + " is your password.");
+       }
+       var verificationArray = Array.from(password);
+       console.log(verificationArray);
+       var validateArray = []
+    ///////////
+    if (options.special === true) {
+        validateArray.push(verificationArray.includes('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , '-' , '.' , '/' , ':' , ';' , '<' , '=' , '>' , '?' , '@'));
+    } else validateArray.push(true);
+    if (options.numeric === true) {
+        validateArray.push(verificationArray.includes('0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'));
+    } else validateArray.push(true);
+    if (options.uppercase === true) {
+        validateArray.push(verificationArray.includes('A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'));
+    } else validateArray.push(true);
+
+    if (validateArray === [true, true, true]) {
+     var confirmPW = window.confirm(password + " is your password. would you like a different password?") 
+        if (confirmPW) {
+            password = "";
+            generatePassword();
+        }
+        } else { 
+            window.alert("Select ok to start over.")
+            password = ""
+            start();
+        }
 };
-//////////////////////////////////
-
-
-///////// CALL FUNCTIONS /////////
+   
+function start() {
 passwordLength();
 passwordOptions();
 getPasswordArray();
 generatePassword();
-debugger;
+//debugger;
+};
+
+///////// CALL START FUNCTION /////////
+start()
+
+
+////////////////////////////////////////////////
+
+/*var validateArray = [] 
+        debugger;
+        if (options.special === true) {
+            validateArray.push(password.includes('!' || '#' || '$' || '%' || '&' || '(' || ')' || '*' || '+' || '-' || '.' || '/' || ':' || ';' || '<' || '=' || '>' || '?' || '@'));
+        } else validateArray.push(true);
+        if (options.numeric === true) {
+            validateArray.push(password.includes('0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9'));
+        } else validateArray.push(true);
+        if (options.uppercase === true) {
+            validateArray.push(password.includes('A' || 'B' || 'C' || 'D' || 'E' || 'F' || 'G' || 'H' || 'I' || 'J' || 'K' || 'L' || 'M' || 'N' || 'O' || 'P' || 'Q' || 'R' || 'S' || 'T' || 'U' || 'V' || 'W' || 'X' || 'Y' || 'Z'));
+        } else validateArray.push(true);
+        if (validateArray === [true, true, true] ) {
+            */
 
 
 
@@ -93,4 +135,4 @@ debugger;
 //}
 
 // Add event listener to generate button
-//generateBtn.addEventListener("click", writePassword);
+//generateBtn.addEventListener("click" || writePassword)
