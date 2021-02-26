@@ -1,7 +1,10 @@
 /////// DECLARE VARIABLES //////
-var password = [""]
+var password = ""
 var length
 var passwordArray
+var hasSpecial = true;
+var hasUppercase = true;
+var hasNumbers = true;
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 // options arrays
@@ -56,38 +59,47 @@ function getPasswordArray() {
      return passwordArray;
 };
 
+// validates password contains user critera
+function validation(arr, str) {
+    for (var i = 0; i < arr.length; i++) {
+        if (str.includes(arr[i])) return true;
+    }
+    return false;
+};
+
+// generates the password and calls validation()
 function generatePassword() {
-    debugger;
     for (var i = 0; i < length; i++) {
        var x = passwordArray[Math.floor(Math.random() * passwordArray.length)];
        password = password + x;
        }
-       var verificationArray = Array.from(password);
-       console.log(verificationArray);
-       var validateArray = []
-    ///////////
-    if (options.special === true) {
-        validateArray.push(verificationArray.includes('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , '-' , '.' , '/' , ':' , ';' , '<' , '=' , '>' , '?' , '@'));
-    } else validateArray.push(true);
-    if (options.numeric === true) {
-        validateArray.push(verificationArray.includes('0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9'));
-    } else validateArray.push(true);
-    if (options.uppercase === true) {
-        validateArray.push(verificationArray.includes('A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'));
-    } else validateArray.push(true);
-
-    if (validateArray === [true, true, true]) {
-     var confirmPW = window.confirm(password + " is your password. would you like a different password?") 
-        if (confirmPW) {
-            password = "";
-            generatePassword();
-        }
-        } else { 
-            window.alert("Select ok to start over.")
-            password = ""
-            start();
-        }
+       console.log(password);
+       //debugger;
+       if (options.special === true) {
+           hasSpecial = validation(specialCharactersArray, password);
+       } 
+       if (options.uppercase === true) {
+           hasUppercase = validation(uppercaseLettersArray, password);
+       }
+       if (options.numeric === true) {
+           hasNumbers = validation(numbersArray, password);
+       }
+       console.log(hasNumbers, hasSpecial, hasUppercase);
+       debugger;
+       if (hasUppercase === true && hasNumbers === true && hasSpecial === true) {
+           console.log(password + " is the password")
+           return password;
+       } else {
+           password = "";
+           generatePassword();
+       }
 };
+
+///////////////////////////
+
+
+
+///////////////////////////
    
 function start() {
 passwordLength();
