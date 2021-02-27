@@ -1,12 +1,11 @@
 /////// DECLARE VARIABLES //////
 var password = ""
 var length
-var passwordArray
-var hasSpecial = true;
-var hasUppercase = true;
-var hasNumbers = true;
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
+var passwordArray = []
+var hasLowercase = null
+var hasSpecial = null 
+var hasUppercase = null
+var hasNumbers = null 
 // options arrays
 var uppercaseLettersArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var lowercaseLettersArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -16,20 +15,24 @@ var specialCharactersArray = ['!', '#', '$', '%', '&', '(', ')', '*', '+', '-', 
 var options = {
     uppercase: "",
     special: "",
-    numeric: ""
+    numeric: "",
+    lowercase: ""
 };
 
-/////// DECLARE FUNCTIONS /////////
+/////// DECLARE FUNCTIONS ////////
 // returns options
 function passwordOptions() {
-    var optionQuestion = window.confirm("Would you like uppercase, numeric, and or special characters in your password? select 'ok' for yes or 'cancel' for no.")
-    if (optionQuestion === true) {
-        options.uppercase = (window.confirm("Would you like your password to include uppercase characters?")),
-        options.special = (window.confirm("Would you like your password to include special characters?")),
-        options.numeric = (window.confirm("Would you like your password to include numeric characters?"))
+    options.lowercase = (window.confirm("Would you like your password to include lowercase characters?"))
+    options.uppercase = (window.confirm("Would you like your password to include uppercase characters?")),
+    options.special = (window.confirm("Would you like your password to include special characters?")),
+    options.numeric = (window.confirm("Would you like your password to include numeric characters?"))
+    if (options.lowercase === false && options.numeric === false && options.special === false && options.uppercase === false) {
+        window.alert("Please select at least one option.")
+        passwordOptions()
+    } else {
+        console.log(options)
+        return options
     }
-    console.log(options)
-    return options
 };
 
 // returns length
@@ -39,112 +42,114 @@ function passwordLength() {
         alert("Please enter a valid response.");
         passwordLength();
     } else {
-        console.log(length)
+        console.log(length);
         return length;
     }
 };
 
 // returns passwordArray
 function getPasswordArray() {
+    if (options.lowercase === true) {
+        passwordArray.push('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    };
     if (options.uppercase === true) {
-        lowercaseLettersArray.push('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
-    } if (options.special === true) {
-        lowercaseLettersArray.push('!', '#', '$', '%', '&', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@')
-    } if (options.numeric === true) {
-        lowercaseLettersArray.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9','0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    } 
-     passwordArray = lowercaseLettersArray;
-     
-     console.log(passwordArray);
-     return passwordArray;
+        passwordArray.push('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
+    }; 
+    if (options.special === true) {
+        passwordArray.push('!', '#', '$', '%', '&', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@')
+    }; 
+    if (options.numeric === true) {
+        passwordArray.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    };
+
+    console.log(passwordArray);
+    return passwordArray;
+};
+
+function resetValues() {
+    password = "";
+    passwordArray = [];
+    options.lowercase = "";
+    options.numeric = "";
+    options.special = "";
+    options.uppercase = "";
+    hasLowercase = null;
+    hasSpecial = null;
+    hasUppercase = null; 
+    hasNumbers = null; 
 };
 
 // validates password contains user critera
 function validation(arr, str) {
     for (var i = 0; i < arr.length; i++) {
-        if (str.includes(arr[i])) return true;
+        if (str.includes(arr[i])) {
+            console.log(str, arr)
+            return true
+        }
     }
-    return false;
 };
 
 // generates the password and calls validation()
 function generatePassword() {
     for (var i = 0; i < length; i++) {
-       var x = passwordArray[Math.floor(Math.random() * passwordArray.length)];
-       password = password + x;
-       }
-       console.log(password);
-       //debugger;
-       if (options.special === true) {
-           hasSpecial = validation(specialCharactersArray, password);
-       } 
-       if (options.uppercase === true) {
-           hasUppercase = validation(uppercaseLettersArray, password);
-       }
-       if (options.numeric === true) {
-           hasNumbers = validation(numbersArray, password);
-       }
-       console.log(hasNumbers, hasSpecial, hasUppercase);
-       debugger;
-       if (hasUppercase === true && hasNumbers === true && hasSpecial === true) {
-           console.log(password + " is the password")
-           return password;
-       } else {
-           password = "";
-           generatePassword();
-       }
+        var x = passwordArray[Math.floor(Math.random() * passwordArray.length)];
+        password = password + x;
+    }
+    //debugger;
+    console.log(password);
+    // Validate //
+    if (options.lowercase === true) {
+        hasLowercase = validation(lowercaseLettersArray, password)
+    }
+    if (options.special === true) {
+        hasSpecial = validation(specialCharactersArray, password)
+    }
+    if (options.uppercase === true) {
+        hasUppercase = validation(uppercaseLettersArray, password)
+    }
+    if (options.numeric === true) {
+        hasNumbers = validation(numbersArray, password)
+    }
+    console.log(hasNumbers, hasSpecial, hasUppercase, hasLowercase);
+    //debugger;
+    if (hasLowercase === undefined) {
+        password = ""
+        generatePassword()
+    }
+    if (hasSpecial === undefined) {
+        password = ""
+        generatePassword()
+    }
+    if (hasUppercase === undefined) {
+        password = ""
+        generatePassword()
+    }
+    if (hasNumbers === undefined) {
+        password = ""
+        generatePassword()
+    }
+    //debugger;
+    console.log(options)
+        console.log(password + " is the password")
+        var passwordText = document.querySelector("#password")
+        passwordText.value = password
+        window.alert("Your password is ready, click ok to start over.")
+        resetValues()
+        start()
 };
 
-///////////////////////////
-
-
-
-///////////////////////////
-   
+// starts the proccess
 function start() {
-passwordLength();
-passwordOptions();
-getPasswordArray();
-generatePassword();
-//debugger;
+    //resetValues();
+    passwordLength();
+    passwordOptions();
+    getPasswordArray();
+    generatePassword();
+    //return password
 };
 
-///////// CALL START FUNCTION /////////
-start()
 
-
-////////////////////////////////////////////////
-
-/*var validateArray = [] 
-        debugger;
-        if (options.special === true) {
-            validateArray.push(password.includes('!' || '#' || '$' || '%' || '&' || '(' || ')' || '*' || '+' || '-' || '.' || '/' || ':' || ';' || '<' || '=' || '>' || '?' || '@'));
-        } else validateArray.push(true);
-        if (options.numeric === true) {
-            validateArray.push(password.includes('0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9'));
-        } else validateArray.push(true);
-        if (options.uppercase === true) {
-            validateArray.push(password.includes('A' || 'B' || 'C' || 'D' || 'E' || 'F' || 'G' || 'H' || 'I' || 'J' || 'K' || 'L' || 'M' || 'N' || 'O' || 'P' || 'Q' || 'R' || 'S' || 'T' || 'U' || 'V' || 'W' || 'X' || 'Y' || 'Z'));
-        } else validateArray.push(true);
-        if (validateArray === [true, true, true] ) {
-            */
-
-
-
-//var options=("");
-//return "password";
-//}
-
-// Write password to the #password input
-//function writePassword() {
-    //var password = generatePassword();
-
-
-
-    //var passwordText = document.querySelector("#password");
-    //passwordText.value = password;
-
-//}
-
+// Get references to the #generate element
+var generateBtn = document.querySelector("#generate");
 // Add event listener to generate button
-//generateBtn.addEventListener("click" || writePassword)
+generateBtn.addEventListener("click", start);
